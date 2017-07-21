@@ -8,12 +8,12 @@
     <meta name="author" content="">
 	
     <title>中国计量大学</title>
-	
+	<link rel="icon" href="images/logo.ico" type="image/x-icon" />
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css"  type="text/css">
 	
 	<!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style1.css">
 	
 	
 	<!-- Custom Fonts -->
@@ -62,117 +62,137 @@ if (i<10)
 
 <body onload="startTime()">
 	<!--Top-->
-	<nav id="top">
+	<nav  id="top">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-6">
-					<select class="language">
-						<option value="English" selected>中文</option>
-						<option value="Germany">English</option>
-					</select>
-					<select class="person">
-						<option value="teacher" selected>老师</option>
-						<option value="student">学生</option>
-						<option value="访客">访客</option>
-					</select>
-				</div>
-				<div class="col-xs-6">
-					<ul class="top-link">
-						<li><a href="zhuce.html"><span class="glyphicon glyphicon-user"></span> 我的信息</a></li>
-						<li><a href="contact.html"><span class="glyphicon glyphicon-envelope"></span> 联系</a></li>
-						<li id="txt"></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+	               <ul class="top-link">
+                       <li><a href="" title="学生" onclick="">学生</a></li>
+                       <li><a href="" title="教工" onclick="">教工</a></li>
+                       <li><a href="" title="校友" onclick="">校友</a></li>
+                       <li><a href="" title="考生" onclick="">考生</a></li>
+                       <li><a href="" title="访客" onclick="">访客</a></li> &nbsp;  
+                    <li><a href="" target="_blank"><span class="glyphicon glyphicon-home"></span> 信息门户</a></li>
+                    <li><a href="" target="_blank"><span class="glyphicon glyphicon-envelope"></span> 邮件服务</a></li>
+                    <li><a href="" target="_blank"><span class="glyphicon glyphicon-list-alt"></span> 教务在线</a></li>
+                    </ul>
+				</div>	
+                <div   class="col-xs-6">
+                    <ul class="top-link" style="float: right;">	
+                    <li><a href="" class="text-uppercase" target="_blank" title="" onclick="">English</a></li>
+  <script type="text/javascript">
+    function _nl_ys_check(){
+        
+        var keyword = document.getElementById('showkeycode46770').value;
+        if(keyword==null||keyword==""){
+            alert("请输入你要检索的内容！");
+            return false;
+        }
+        if(window.toFF==1)
+        {
+            document.getElementById("lucenenewssearchkeyword46770").value = Simplized(keyword );
+        }else
+        {
+            document.getElementById("lucenenewssearchkeyword46770").value = keyword;            
+        }
+        var  base64 = new Base64();
+        document.getElementById("lucenenewssearchkeyword46770").value = base64.encode(document.getElementById("lucenenewssearchkeyword46770").value);
+        new VsbFormFunc().disableAutoEnable(document.getElementById("showkeycode46770"));
+        return true;
+    } 
+</script>
+<li>
+<form action="" method="post" name="au3a" onsubmit="return _nl_ys_check()" class="" role="search">
+ <input type="hidden" id="lucenenewssearchkeyword46770" name="lucenenewssearchkeyword" value=""><input type="hidden" id="_lucenesearchtype46770" name="_lucenesearchtype" value="1"><input type="hidden" id="searchScope46770" name="searchScope" value="0">
+                    <input type="text" class="input-medium search-query" placeholder="搜索关键词..." name="showkeycode" id="showkeycode46770">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button></form></li>   
+                    </ul>
+                   </div>
+			    </div>	
+		    </div>
 	</nav>
 	<!--Header-->
 	<header class="container">
 		<div class="row">
-			<div class="col-md-4">
-				<div id="cjlu"><img src="images/1.png" /></div>
+			<div class="banner">
+				<div id="" style="background:url(images/8.jpg)">
+				<img src="images/2.png" />
+				&nbsp;
+				<img src="images/4.png" />
+				</div>
 			</div>
-			<div class="col-md-4">
-				<form class="form-search">  
-					<input type="text" class="input-medium search-query">  
-					<button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>  
-				</form>
-			</div>	
-				<div class="col-md-4">
-				<div id="weixin"><img src="images/30.png" /></div>
-			    </div>
 		</div>
 	</header>
 	<!--Navigation-->
     <nav id="menu" class="navbar">
 		<div class="container">
-			<div class="navbar-header"><span id="heading" class="visible-xs">类别</span>
+			<div class="navbar-header"><span id="heading" class="visible-xs" style="font-size: 36px;font-family: 'Roboto';color:black;">类别</span>
 			  <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
 			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="index.html">主页</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">学校总览</a>
+					<li><a href="index.html" style="font-size: 30px;font-family: '楷体', sans-serif;font-weight: 600;color: #111;">主页</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 30px;font-family: '楷体', sans-serif;font-weight: 600;color: #111;">学校总览</a>
 						<div class="dropdown-menu">
 							<div class="dropdown-inner">
 								<ul class="list-unstyled">
-									<li><a href="/images/15.jpg">本部</a></li>
-									<li><a href="/images/30.jpg">现科</a></li>
+									<li><a href="/images/15.jpg" style="font-family: '楷体';font-size:20px;">本部</a></li>
+									<li><a href="/images/30.jpg" style="font-family: '楷体';font-size:20px;">现科</a></li>
 								</ul>
 							</div>
 						</div>
 					</li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">活动场地</a>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 30px;font-family: '楷体', sans-serif;font-weight: 600;color: #111;">活动场地</a>
 						<div class="dropdown-menu">
 							<div class="dropdown-inner">
 								<ul class="list-unstyled">
-									<li><a href="/images/31.jpeg">逸夫图书馆</a></li>
-									<li><a href="/images/17.jpg">嘉量大会堂</a></li>
-									<li><a href="/images/32.jpg">启明活动中心</a></li>
-									<li><a href="">工程训练中心</a></li>
-									<li><a href="/images/">天健体育馆</a></li>
+									<li><a href="/images/31.jpeg" target="_blank" style="font-family: '楷体';font-size:20px;">逸夫图书馆</a></li>
+									<li><a href="/images/17.jpg" target="_blank" style="font-family: '楷体';font-size:20px;">嘉量大会堂</a></li>
+									<li><a href="/images/32.jpg" target="_blank" style="font-family: '楷体';font-size:20px;">启明活动中心</a></li>
+									<li><a href="" style="font-family: '楷体';font-size:20px;">工程训练中心</a></li>
+									<li><a href="/images/" style="font-family: '楷体';font-size:20px;">天健体育馆</a></li>
 								</ul>
 							</div> 
 						</div>
 					</li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">教学场地 &amp; 教学楼</a>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 30px;font-family: '楷体', sans-serif;font-weight: 600;color: #111;">教学场地 &amp; 教学楼</a>
 						<div class="dropdown-menu" style="margin-left: -203.625px;">
 							<div class="dropdown-inner">
 								<ul class="list-unstyled">
-									<li><a href="/images/33.jpg">环宇楼</a></li>
-									<li><a href="/images/38.jpg">翔宇楼</a></li>
-									<li><a href=".html">赛博北楼</a></li>
-									<li><a href=".html">赛博南楼</a></li>
-									<li><a href=".html">仰仪北楼</a></li>
-									<li><a href=".html">仰仪中楼</a></li>
+									<li><a href="/images/33.jpg" target="_blank" style="font-family: '楷体';font-size:20px;">环宇楼</a></li>
+									<li><a href="/images/38.jpg" target="_blank" style="font-family: '楷体';font-size:20px;">翔宇楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">赛博北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">赛博南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">仰仪北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">仰仪中楼</a></li>
 								</ul>
 								<ul class="list-unstyled">
-									<li><a href=".html">求是北楼</a></li>
-									<li><a href=".html">求是中楼</a></li>
-									<li><a href=".html">求是南楼</a></li>
-									<li><a href=".html">明德北楼</a></li>
-									<li><a href=".html">明德南楼</a></li>
-									<li><a href=".html">仰仪南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">求是北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">求是中楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">求是南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">明德北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">明德南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">仰仪南楼</a></li>
 								</ul>
 								<ul class="list-unstyled">
-									<li><a href=".html">格致北楼</a></li>
-									<li><a href=".html">格致中楼</a></li>
-									<li><a href=".html">格致南楼</a></li>
-									<li><a href=".html">方圆北楼</a></li>
-									<li><a href=".html">方圆南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">格致北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">格致中楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">格致南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">方圆北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">方圆南楼</a></li>
 								</ul>
 							</div>
 						</div>
 					</li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">实验室</a>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 30px;font-family: '楷体', sans-serif;font-weight: 600;color: #111;">实验室</a>
 						<div class="dropdown-menu">
 							<div class="dropdown-inner">
 								<ul class="list-unstyled">
-									<li><a href=".html">赛博北楼</a></li>
-									<li><a href=".html">方圆南楼</a></li>
-									<li><a href=".html">仰仪北楼</a></li>
-									<li><a href=".html">格致中楼</a></li>
-									<li><a href=".html">求是中楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">赛博北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">方圆南楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">仰仪北楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">格致中楼</a></li>
+									<li><a href=".html" style="font-family: '楷体';font-size:20px;">求是中楼</a></li>
 								</ul>
 							</div>
 						</div>
@@ -254,7 +274,7 @@ if (i<10)
 							<div class="product">
 								<div class="image"><a href=""><img src="images/13.jpg" /></a></div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/31.jpeg">逸夫图书馆</a></h3></div>
+									<div class="name"><h3><a href="/images/31.jpeg" target="_blank">逸夫图书馆</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
 								</div>
 							</div>
@@ -264,7 +284,7 @@ if (i<10)
 								<div class="image"><a href=""><img src="images/7.jpg" /></a></div>
 								
 								<div class="caption">
-									<div class="name"><h3><a href="/images/7.jpg">羲和亭</a></h3></div>
+									<div class="name"><h3><a href="/images/7.jpg" target="_blank">羲和亭</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
 								</div>
 							</div>
@@ -273,7 +293,7 @@ if (i<10)
 							<div class="product">
 								<div class="image"><a href=""><img src="images/6.jpg" /></a></div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/6.jpg">陶冶亭</a></h3></div>
+									<div class="name"><h3><a href="/images/6.jpg" target="_blank">陶冶亭</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
 								</div>
 							</div>
@@ -282,7 +302,7 @@ if (i<10)
 							<div class="product">
 								<div class="image"><a href=""><img src="images/19.jpg" /></a></div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/19.jpg">日月湖</a></h3></div>
+									<div class="name"><h3><a href="/images/19.jpg" target="_blank">日月湖</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></div>
 								</div>
 							</div>
@@ -311,7 +331,7 @@ if (i<10)
 									<a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>									
 								</div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/11.jpg">动画地图</a></h3></div>
+									<div class="name"><h3><a href="/images/11.jpg" target="_blank">动画地图</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
 								</div>
 							</div>
@@ -323,31 +343,31 @@ if (i<10)
 									<a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>									
 								</div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/15.jpg">航拍</a></h3></div>
+									<div class="name"><h3><a href="/images/15.jpg" target="_blank">航拍</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 							<div class="product">
-								<div class="image"><a href=""><img src="images/8.jpg" /></a></div>
+								<div class="image"><a href=""><img src="images/a.jpg" /></a></div>
 								<div class="buttons">									
 									<a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>									
 								</div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/8.jpg">夜景</a></h3></div>
+									<div class="name"><h3><a href="/images/a.jpg" target="_blank">夜景</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 							<div class="product">
-								<div class="image"><a href="product.html"><img src="images/23.jpg" /></a></div>
+								<div class="image"><a href=""><img src="images/23.jpg" /></a></div>
 								<div class="buttons">							
 									<a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>								
 								</div>
 								<div class="caption">
-									<div class="name"><h3><a href="/images/23.jpg">更名为大学</a></h3></div>
+									<div class="name"><h3><a href="/images/23.jpg" target="_blank">更名为大学</a></h3></div>
 									<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></div>
 								</div>
 							</div>
@@ -362,8 +382,7 @@ if (i<10)
 			<div class="wrap-footer">
 				<div class="row">
 					<div class="col-md-3 col-footer footer-1">
-						<img src="images/24.jpg" />
-						<p>乱数假文只是印刷排版业虚拟文本。</p>
+						<img src="images/c.png">
 					</div>
 					<div class="col-md-3 col-footer footer-2">
 						<div class="heading"><h4>顾客服务</h4></div>
@@ -376,7 +395,7 @@ if (i<10)
 						</ul>
 					</div>
 					<div class="col-md-3 col-footer footer-3">
-						<div class="heading"><h4>我的信息</h4></div>
+						<div class="heading"><h4><a href="zhuce.html" style="color:white;">我的信息</a></h4></div>
 						<ul>
 							<li><a href="#">我的学号</a></li>
 							<li><a href="#">手机号</a></li>
@@ -386,7 +405,7 @@ if (i<10)
 						</ul>
 					</div>
 					<div class="col-md-3 col-footer footer-4">
-						<div class="heading"><h4>联系我们</h4></div>
+						<div class="heading"><h4><a href="contact.html" style="color:white;">联系我们</a></h4></div>
 						<ul>
 							<li><span class="glyphicon glyphicon-home"></span>中国, 浙江，杭州</li>
 							<li><span class="glyphicon glyphicon-earphone"></span>123456</li>
