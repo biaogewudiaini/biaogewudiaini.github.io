@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTML5自动放烟花效果</title>
+<style>
+html,body{height:100%;margin:0;padding:0}
+ul,li{text-indent:0;text-decoration:none;margin:0;padding:0}
+img{border:0}
+body{background-color:#000;color:#999;font:100%/18px helvetica, arial, sans-serif}
+canvas{cursor:crosshair;display:block;left:0;position:absolute;top:0;z-index:20}
+/*	黑色背景和鼠标形状，定位居中，元素堆叠顺序*/
+</style>
+</head>
+<body>
+<canvas></canvas>
+<audio src="1.mp3" class="boom" id="boom" preload="auto"></audio>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+	// var audio = document.createElement("audio");
+ //    audio.preload="auto";
+ //    audio.src = "1.mp3";
+ // function playSound() {
+ //    audio.play();
+ // }
+$(function(){
+var Fireworks = function(){
+var self = this;
+var rand = function(rMi, rMa){return ~~((Math.random()*(rMa-rMi+1))+rMi);}
+var hitTest = function(x1, y1, w1, h1, x2, y2, w2, h2){return !(x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1);};
+window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(a){window.setTimeout(a,1E3/60)}}();
+self.init = function(){ 
+    self.canvas = document.createElement('canvas');             
+    self.canvas.width = self.cw = $(window).innerWidth();
+    self.canvas.height = self.ch = $(window).innerHeight();  //设置基本变量       
+    self.particles = []; // particle collection粒子集合 
+    self.partCount = 150;//总数
+    self.fireworks = [];  // fireworks   collection粒子集合  
+    self.mx = self.cw/2; // mouse x coordinate,
+    self.my = self.ch/2;// mouse y coordinate,
+    self.currentHue = 30; //流动色调
+    self.partSpeed = 5; //速度
+    self.partSpeedVariance = 10; //变化速度
+    self.partWind = 50;   //风
+    self.partFriction = 5; //摩擦力
+    self.partGravity = 1; //重力
+    self.hueMin = 0; //色调最小值
+    self.hueMax = 360; //色调最大值
+    self.fworkSpeed = 4; //工作速度
+    self.fworkAccel = 10; //工作加速
+    self.hueVariance = 30; //色调变换
+    self.flickerDensity = 25; //闪变密度
+    self.showShockwave = true; //展示激波
+    self.showTarget = false; //不展示目标
+    self.clearAlpha = 25; //清理粒子
+    $(document.body).append(self.canvas);//结尾插入画布
+    self.ctx = self.canvas.getContext('2d');//基本变量
+    self.ctx.lineCap = 'round';//画笔线帽
+    self.ctx.lineJoin = 'round';//线连接
+    self.lineWidth = 1; //线宽
+    self.bindEvents();   //点击事件       
+    self.canvasLoop(); //帆布环
+    self.canvas.onselectstart = function() {
+        return false; //目标对象开始被选中
+    };
+    self.cc(1000);
+};      
+self.cc=function(t){  //自动释放烟花
+    t=t-100;
+    self.mx = Math.floor(Math.random()*10)*200;
+    self.my=Math.floor(Math.random()*10)*100;
+    self.mx=self.mx>$(window).width()?$(window).width():self.mx;
+    self.my=self.my>$(window).height()?$(window).height()/2:self.my;
+    t=t<100?100:t;
+    self.currentHue = rand(self.hueMin, self.hueMax);
+    setTimeout(function(){
+        self.createFireworks(self.cw/2, self.ch, self.mx, self.my); 
+        self.createFireworks(self.cw/2, self.ch, self.my, self.mx );
+        self.cc(t);
+    },t)
+}
+self.createParticles = function(x,y, hue){ //创建粒子
+    var countdown = self.partCount;
+    while(countdown--){
+        var newParticle = {
+            x: x,
+            y: y,
+            coordLast: [ //跟踪每个粒子的过去坐标以产生跟踪效果，增加坐标计数以创建更突出的轨迹。
+                {x: x, y: y},
+                {x: x, y: y},
+                {x: x, y: y}
+            ],
+			//在所有可能的方向设置一个任意角度、弧度
+            angle: rand(0, 360),
+            speed: rand(((self.partSpeed - self.partSpeedVariance) <= 0) ? 1 : self.partSpeed - self.partSpeedVariance, (self.partSpeed + self.partSpeedVariance)),
+			//摩擦会慢下来的颗粒
+            friction: 1 - self.partFriction/100,
+			//重力将被应用并把粒子拉下来。
+            gravity: self.partGravity/2,
+			//设置颜色为随机数+ 30的整体色调变
+            hue: rand(hue-self.hueVariance, hue+self.hueVariance),
+			//亮度
+            brightness: rand(50, 80),
+            alpha: rand(40,100)/100,
+			//设置如何快速的粒子消失了
+            decay: rand(10, 50)/1000,
+            wind: (rand(0, self.partWind) - (self.partWind/2))/25,
+            lineWidth: self.lineWidth
+        };              
+        self.particles.push(newParticle);
+    }
+};
+self.updateParticles = function(){ //增加一个更大爆炸的粒子数，小心帆布的性能随粒子的增加而增加。
+    var i = self.particles.length;
+    while(i--){
+        var p = self.particles[i];
+        var radians = p.angle * Math.PI / 180;
+		//应用速度 
+        var vx = Math.cos(radians) * p.speed;
+        var vy = Math.sin(radians) * p.speed;
+		//减缓粒子的速度
+        p.speed *= p.friction;
+
+        p.coordLast[2].x = p.coordLast[1].x;
+        p.coordLast[2].y = p.coordLast[1].y;
+        p.coordLast[1].x = p.coordLast[0].x;
+        p.coordLast[1].y = p.coordLast[0].y;
+        p.coordLast[0].x = p.x;
+        p.coordLast[0].y = p.y;
+        p.x += vx;
+        p.y += vy;
+        p.y += p.gravity;
+        p.angle += p.wind;   
+		//淡出粒子
+        p.alpha -= p.decay;
+		//根据传递的索引，一旦alpha足够低，就删除粒子。
+        if(!hitTest(0,0,self.cw,self.ch,p.x-p.radius, p.y-p.radius, p.radius*2, p.radius*2) || p.alpha < .05){                  
+            self.particles.splice(i, 1);    
+        }
+    };
+};
+self.drawParticles = function(){
+    var i = self.particles.length;
+    while(i--){
+        var p = self.particles[i];                          
+        var coordRand = (rand(1,3)-1);
+        self.ctx.beginPath();  
+		//移动到集合中的最后一个跟踪坐标，然后画一条线到当前x和y
+        self.ctx.moveTo(Math.round(p.coordLast[coordRand].x), Math.round(p.coordLast[coordRand].y));
+        self.ctx.lineTo(Math.round(p.x), Math.round(p.y));
+        self.ctx.closePath();               
+        self.ctx.strokeStyle = 'hsla('+p.hue+', 100%, '+p.brightness+'%, '+p.alpha+')';
+        self.ctx.stroke();              
+        if(self.flickerDensity > 0){
+            var inverseDensity = 50 - self.flickerDensity;                  
+            if(rand(0, inverseDensity) === inverseDensity){
+                self.ctx.beginPath();
+                self.ctx.arc(Math.round(p.x), Math.round(p.y), rand(p.lineWidth,p.lineWidth+3)/2, 0, Math.PI*2, false)
+                self.ctx.closePath();
+                var randAlpha = rand(50,100)/100;
+                self.ctx.fillStyle = 'hsla('+p.hue+', 100%, '+p.brightness+'%, '+randAlpha+')';
+                self.ctx.fill();
+            }   
+        }
+    };
+};
+self.createFireworks = function(startX, startY, targetX, targetY){
+    var newFirework = {
+		//实际坐标
+    x: startX,
+    y: startY,
+	//开始坐标
+    startX: startX,
+    startY: startY,
+    hitX: true,//烟花路径  
+    hitY: true,
+    coordLast: [
+        {x: startX, y: startY},
+        {x: startX, y: startY},
+        {x: startX, y: startY}
+    ],
+	//目标坐标
+    targetX: targetX,
+    targetY: targetY,
+    speed: self.fworkSpeed,
+    angle: Math.atan2(targetY - startY, targetX - startX),
+    shockwaveAngle: Math.atan2(targetY - startY, targetX - startX)+(90*(Math.PI/180)),
+    acceleration: self.fworkAccel/100,
+    hue: self.currentHue,
+    brightness: rand(50, 80),
+    alpha: rand(50,100)/100,
+    lineWidth: self.lineWidth
+    };          
+    self.fireworks.push(newFirework);
+};
+self.updateFireworks = function(){
+    var i = self.fireworks.length;
+    while(i--){
+        var f = self.fireworks[i];
+        self.ctx.lineWidth = f.lineWidth;
+		//根据角度和速度获得当前速度
+        vx = Math.cos(f.angle) * f.speed,
+        vy = Math.sin(f.angle) * f.speed;
+		//加快烟花爆竹的速度
+        f.speed *= 1 + f.acceleration;              
+        f.coordLast[2].x = f.coordLast[1].x;
+        f.coordLast[2].y = f.coordLast[1].y;
+        f.coordLast[1].x = f.coordLast[0].x;
+        f.coordLast[1].y = f.coordLast[0].y;
+        f.coordLast[0].x = f.x;
+        f.coordLast[0].y = f.y;
+        if(f.startX >= f.targetX){
+            if(f.x + vx <= f.targetX){
+                f.x = f.targetX;
+                f.hitX = true;
+            } else {
+                f.x += vx;
+            }
+        } else {
+            if(f.x + vx >= f.targetX){
+                f.x = f.targetX;
+                f.hitX = true;
+            } else {
+                f.x += vx;
+            }
+        }
+        if(f.startY >= f.targetY){
+            if(f.y + vy <= f.targetY){
+                f.y = f.targetY;
+                f.hitY = true;
+            } else {
+                f.y += vy;
+            }
+        } else {
+            if(f.y + vy >= f.targetY){
+                f.y = f.targetY;
+                f.hitY = true;
+            } else {
+                f.y += vy;
+            }
+        }               
+        if(f.hitX && f.hitY){
+            self.createParticles(f.targetX, f.targetY, f.hue);
+            self.fireworks.splice(i, 1);
+
+        }
+    };
+};
+self.drawFireworks = function(){ //环在每个烟火，画它，更新它
+var i = self.fireworks.length;
+	//将复合操作更改为主模式。
+	//打火机点燃明亮的亮点，因为烟火和粒子互相重叠。
+self.ctx.globalCompositeOperation = 'lighter';
+    while(i--){
+        var f = self.fireworks[i];      
+        self.ctx.lineWidth = f.lineWidth;
+        var coordRand = (rand(1,3)-1);                  
+        self.ctx.beginPath();                           
+        self.ctx.moveTo(Math.round(f.coordLast[coordRand].x), Math.round(f.coordLast[coordRand].y));
+        self.ctx.lineTo(Math.round(f.x), Math.round(f.y));
+        self.ctx.closePath();
+        self.ctx.strokeStyle = 'hsla('+f.hue+', 100%, '+f.brightness+'%, '+f.alpha+')';
+        self.ctx.stroke();  
+        if(self.showTarget){
+            self.ctx.save();
+            self.ctx.beginPath();
+            self.ctx.arc(Math.round(f.targetX), Math.round(f.targetY), rand(1,8), 0, Math.PI*2, false)
+            self.ctx.closePath();
+            self.ctx.lineWidth = 1;
+            self.ctx.stroke();
+            self.ctx.restore();
+        }
+
+        if(self.showShockwave){
+            self.ctx.save();
+            self.ctx.translate(Math.round(f.x), Math.round(f.y));
+            self.ctx.rotate(f.shockwaveAngle);
+            self.ctx.beginPath();
+            self.ctx.arc(0, 0, 1*(f.speed/5), 0, Math.PI, true);
+            self.ctx.strokeStyle = 'hsla('+f.hue+', 100%, '+f.brightness+'%, '+rand(25, 60)/100+')';
+            self.ctx.lineWidth = f.lineWidth;
+            self.ctx.stroke();
+            self.ctx.restore();
+        }
+    };
+};
+self.bindEvents = function(){
+    $(window).on('resize', function(){          
+        clearTimeout(self.timeout);
+        self.timeout = setTimeout(function() {
+            self.canvas.width = self.cw = $(window).innerWidth();
+            self.canvas.height = self.ch = $(window).innerHeight();
+            self.ctx.lineCap = 'round';
+            self.ctx.lineJoin = 'round';
+        }, 100);
+    });
+    $(self.canvas).on('mousedown', function(e){
+        if(e==null){
+            e=window.event;
+        }
+        self.mx = e.pageX - self.canvas.offsetLeft;
+        self.my = e.pageY - self.canvas.offsetTop;
+        self.currentHue = rand(self.hueMin, self.hueMax);
+        self.createFireworks(self.cw/2, self.ch, self.mx, self.my); 
+		playSound();
+        $(self.canvas).on('mousemove.fireworks', function(e){
+            self.mx = e.pageX - self.canvas.offsetLeft;
+            self.my = e.pageY - self.canvas.offsetTop;
+            self.currentHue = rand(self.hueMin, self.hueMax);
+            self.createFireworks(self.cw/2, self.ch, self.mx, self.my);                                 
+        });             
+    });
+
+    $(self.canvas).on('mouseup', function(e){
+        $(self.canvas).off('mousemove.fireworks');                                  
+    });
+
+}
+self.clear = function(){
+    self.particles = [];
+    self.fireworks = [];
+    self.ctx.clearRect(0, 0, self.cw, self.ch);
+};
+self.canvasLoop = function(){
+	//这个函数将requestanimationframe没完没了地跑
+    requestAnimFrame(self.canvasLoop, self.canvas);  
+	//通常情况下，clearrect()将用于清除画布
+	//我们想创建一个拖尾效应
+	//将复合操作设置为目的地将允许我们以特定的不透明性清除画布，而不是完全擦除它。
+    self.ctx.globalCompositeOperation = 'destination-out';
+	//减少alpha属性创建更突出的路径
+    self.ctx.fillStyle = 'rgba(0,0,0,'+self.clearAlpha/100+')';
+    self.ctx.fillRect(0,0,self.cw,self.ch);
+    self.updateFireworks();
+    self.updateParticles();
+    self.drawFireworks();           
+    self.drawParticles();
+};
+
+self.init();        
+}
+var fworks = new Fireworks();
+
+});
+</script>
+</body>
+</html>
